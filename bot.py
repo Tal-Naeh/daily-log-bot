@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 import asyncio
+import json
 import logging
 import os
 from datetime import date, timedelta
+from pathlib import Path
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
@@ -36,6 +38,30 @@ TIMEZONE = os.getenv("TIMEZONE", "Asia/Jerusalem")
 DONE, TOMORROW = range(2)
 
 notion = NotionClient(auth=NOTION_TOKEN)
+
+# ── Topics ───────────────────────────────────────────────────────────────────
+
+TOPICS_FILE = Path(__file__).parent / "topics.json"
+TOPICS_STATE = Path(__file__).parent / "topics_state.json"
+
+def get_todays_topic() -> dict:
+    topics = json.loads(TOPICS_FILE.read_text())
+    if TOPICS_STATE.exists():
+        state = json.loads(TOPICS_STATE.read_text())
+        last_date = state.get("last_date")
+        last_index = state.get("last_index", -1)
+    else:
+        last_date, last_index = None, -1
+
+    today_str = date.today().isoformat()
+    if last_date == today_str:
+        # Already sent today — return same topic
+        index = last_index
+    else:
+        index = (last_index + 1) % len(topics)
+        TOPICS_STATE.write_text(json.dumps({"last_date": today_str, "last_index": index}))
+
+    return topics[index]
 
 
 # ── Notion helpers ──────────────────────────────────────────────────────────
@@ -99,18 +125,18 @@ async def send_morning_reminder(app: Application):
     entry = await get_entry(yesterday)
     plan = extract_text(entry, "Tomorrow") if entry else None
 
+    topic = get_todays_topic()
+
+    parts = ["☀️ *בוקר טוב!*"]
     if plan:
-        await app.bot.send_message(
-            chat_id=CHAT_ID,
-            text=f"☀️ *בוקר טוב!*\n\nהתוכנית שלך להיום:\n_{plan}_",
-            parse_mode="Markdown",
-        )
-    else:
-        await app.bot.send_message(
-            chat_id=CHAT_ID,
-            text="☀️ *בוקר טוב!* אין תוכנית מאתמול — שלח /log בסוף היום.",
-            parse_mode="Markdown",
-        )
+        parts.append(f"\n📋 *התוכנית להיום:*\n_{plan}_")
+    parts.append(f"\n\n🧠 *נושא היום — {topic['title']}*\n{topic['body']}")
+
+    await app.bot.send_message(
+        chat_id=CHAT_ID,
+        text="\n".join(parts),
+        parse_mode="Markdown",
+    )
 
 
 async def send_late_reminder(app: Application):
@@ -242,6 +268,16 @@ async def cmd_stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 
+async def cmd_topic(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if update.effective_chat.id != CHAT_ID:
+        return
+    topic = get_todays_topic()
+    await update.message.reply_text(
+        f"🧠 *נושא היום — {topic['title']}*\n\n{topic['body']}",
+        parse_mode="Markdown",
+    )
+
+
 async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_chat.id != CHAT_ID:
         return
@@ -251,6 +287,7 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "/tomorrow — ראה את התוכנית להיום\n"
         "/summary — סיכום 7 הימים האחרונים\n"
         "/stats — streak וסטטיסטיקות\n"
+        "/topic — נושא היום ב-DevOps/ארכיטקטורה\n"
         "/cancel — בטל פעולה",
         parse_mode="Markdown",
     )
@@ -289,6 +326,7 @@ def main():
     app.add_handler(CommandHandler("tomorrow", cmd_tomorrow))
     app.add_handler(CommandHandler("summary", cmd_summary))
     app.add_handler(CommandHandler("stats", cmd_stats))
+    app.add_handler(CommandHandler("topic", cmd_topic))
     app.add_handler(CommandHandler("help", cmd_help))
 
     log.info("Bot starting...")

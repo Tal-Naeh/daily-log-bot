@@ -1,0 +1,458 @@
+[
+  {
+    "title": "CI/CD — מה זה ולמה זה קריטי",
+    "body": "CI (Continuous Integration) היא שיטה שבה כל שינוי קוד מוזג ל-branch ראשי ונבדק אוטומטית. CD (Continuous Delivery/Deployment) מוסיפה release אוטומטי לסביבות. זה מקצר את הזמן מ-commit ל-production ומפחית את הסיכון בכל deploy."
+  },
+  {
+    "title": "Docker — containers ולמה הם שינו הכל",
+    "body": "Container הוא יחידה שמאגדת קוד + runtime + dependencies. בניגוד ל-VM הוא לא כולל OS שלם — הוא משתמש ב-kernel של host. זה גורם לו להיות קל, מהיר להפעלה, ועקבי בין dev ל-production."
+  },
+  {
+    "title": "Kubernetes — מהי אורקסטרציה?",
+    "body": "Kubernetes (k8s) מנהל אוטומטית את ה-scheduling, scaling, ו-healing של containers. הוא מחליט על איזה node להריץ כל pod, מוודא שמספר ה-replicas נשמר, ומחליף pods שקרסו. זה מאפשר להפעיל מאות services בלי לנהל כל instance ביד."
+  },
+  {
+    "title": "Infrastructure as Code (IaC)",
+    "body": "IaC פירושו לתאר infrastructure (servers, networks, databases) בקוד ולא דרך ממשקים גרפיים. כלים כמו Terraform ו-Pulumi מאפשרים version control לתשתית, reproducibility, ושיתוף בין צוותים — בדיוק כמו קוד רגיל."
+  },
+  {
+    "title": "Microservices vs Monolith",
+    "body": "Monolith הוא אפליקציה אחת גדולה עם כל הפיצ'רים. Microservices מפצל אותה לשירותים קטנים שכל אחד אחראי על דומיין אחד. Microservices מאפשרים scale ו-deploy עצמאי אבל מוסיפים מורכבות של תקשורת, observability ו-distributed transactions."
+  },
+  {
+    "title": "Load Balancer — חלוקת עומסים",
+    "body": "Load Balancer מפזר requests בין מספר instances של שירות. הוא יכול לעבוד בשכבת L4 (TCP/IP) או L7 (HTTP, עם routing לפי headers/path). בנוסף לחלוקת עומסים הוא משמש כנקודת כניסה יחידה ויכול לבצע health checks ולהוציא instances קרוסים מהרוטציה."
+  },
+  {
+    "title": "Blue-Green Deployment",
+    "body": "Blue-Green הוא אסטרטגיית deploy שבה שני סביבות זהות (blue=live, green=new) רצות במקביל. אחרי שה-green מוכן ונבדק, מחליפים את ה-traffic ב-load balancer. אם יש בעיה — rollback הוא רגע."
+  },
+  {
+    "title": "Canary Release",
+    "body": "Canary release שולח אחוז קטן מה-traffic (למשל 5%) לגרסה החדשה, בזמן שהשאר ממשיכים לגרסה הישנה. מנטרים metrics ולאט לאט מגדילים את האחוז. אם משהו השתבש — מחזירים את ה-traffic ב-rollback מהיר."
+  },
+  {
+    "title": "Feature Flags",
+    "body": "Feature flags מאפשרים להפריד בין deploy של קוד לבין release לפיצ'ר. הקוד החדש נמצא ב-production אבל מוסתר מאחורי flag שניתן להפעיל לאחוז מהמשתמשים. זה מאפשר A/B testing, rollout הדרגתי, וכיבוי מהיר של פיצ'ר בעייתי."
+  },
+  {
+    "title": "GitOps — Git כמקור האמת",
+    "body": "ב-GitOps כל שינוי ל-infrastructure או configuration עובר דרך Git PR. כלי כמו ArgoCD ו-FluxCD מנטרים את ה-repo ומסנכרנים את ה-cluster אוטומטית. זה נותן audit trail מלא, קל ל-rollback, ומבטיח שה-cluster תמיד תואם למה שכתוב ב-repo."
+  },
+  {
+    "title": "12-Factor App",
+    "body": "12-Factor הוא מתודולוגיה לבניית אפליקציות cloud-native. עיקרון מרכזי: config ב-environment variables, stateless processes, port binding עצמאי, ו-disposable processes (מהירים לעלות ולרדת). אפליקציה שעומדת ב-12 factors קלה לscale ולdeploy בכל סביבת ענן."
+  },
+  {
+    "title": "Helm — Package Manager ל-Kubernetes",
+    "body": "Helm הוא כלי שמנהל Kubernetes manifests כ-templates עם ערכים משתנים. במקום לשמור עשרות YAML files ידניים, כותבים chart עם variables ו-Helm מרנדר את הסופי לפי הסביבה. זה מאפשר reuse, versioning, ו-rollback של Kubernetes deployments."
+  },
+  {
+    "title": "Service Mesh — Istio ו-Linkerd",
+    "body": "Service Mesh מוסיף שכבת תקשורת בין microservices ב-cluster. במקום שכל service יממש בעצמו retry, timeout, mutual TLS, ו-circuit breaking — ה-mesh עושה זאת דרך sidecar proxy ליד כל pod. Istio ו-Linkerd הם שניים מהנפוצים."
+  },
+  {
+    "title": "Observability — Logs, Metrics, Traces",
+    "body": "Observability מתחלקת לשלוש עמודות: Logs (אירועים נקודתיים), Metrics (מדדים לאורך זמן כמו CPU, latency), ו-Traces (מעקב אחרי request שחוצה מספר services). שלושתם יחד נותנים תמונה מלאה של מה קורה במערכת."
+  },
+  {
+    "title": "Prometheus ו-Grafana",
+    "body": "Prometheus הוא מערכת monitoring שמשלה (scrapes) metrics משירותים בפורמט HTTP. הוא שומר time-series data ומאפשר querying עם PromQL. Grafana מתחבר ל-Prometheus (ולמקורות נוספים) ומציג dashboards ויזואליים. יחד הם הסטנדרט ב-Kubernetes monitoring."
+  },
+  {
+    "title": "ELK Stack — Elasticsearch, Logstash, Kibana",
+    "body": "ELK הוא stack פופולרי לניהול logs. Logstash (או Fluent Bit) אוסף ומפרסר logs, Elasticsearch מאחסן ומאנדקס אותם, וKibana מציג אותם בממשק חיפוש. מאפשר חיפוש מהיר בלוגים ממאות services."
+  },
+  {
+    "title": "OpenTelemetry — תקן ל-Observability",
+    "body": "OpenTelemetry הוא פרויקט open-source שמגדיר תקן אחד לאיסוף traces, metrics, ו-logs. במקום לתמוך בכלי observability ספציפי, כותבים instrument פעם אחת עם OTel SDK ומפנים לכל backend (Jaeger, Grafana, Datadog). מונע vendor lock-in."
+  },
+  {
+    "title": "Distributed Tracing — מעקב בין services",
+    "body": "ב-distributed system request אחד יכול לעבור דרך 10 services שונים. Distributed tracing מצמיד לכל request trace ID ייחודי שמועבר בין services. כל service מוסיף span עם מידע על הזמן שלקח — ובסוף רואים את המסלול המלא של כל request."
+  },
+  {
+    "title": "Circuit Breaker Pattern",
+    "body": "Circuit Breaker מונע cascade failure: אם service A קורא ל-service B וב' לא עונה, הוא מתחיל לצבור errors. Circuit Breaker 'נפתח' אחרי סף מסוים ומחזיר error מיידי במקום לחכות timeout. זה מגן על המשאבים ומאפשר ל-system להתאושש."
+  },
+  {
+    "title": "Retry ו-Exponential Backoff",
+    "body": "Retry הוא ניסיון חוזר אחרי כישלון. Exponential Backoff אומר לחכות יותר ויותר בין כל ניסיון (1s, 2s, 4s, 8s) כדי לא להכביד על שירות שכבר עמוס. Jitter מוסיף רנדומליות לזמן ההמתנה כדי למנוע thundering herd כשמאות clients מנסים בו זמנית."
+  },
+  {
+    "title": "API Gateway",
+    "body": "API Gateway הוא נקודת כניסה יחידה לכל ה-microservices. הוא מטפל ב-authentication, rate limiting, routing, ו-SSL termination. במקום שכל client יידע על כל service, הוא מדבר עם ה-gateway בלבד. Kong, AWS API Gateway ו-Nginx נפוצים לתפקיד הזה."
+  },
+  {
+    "title": "Rate Limiting",
+    "body": "Rate limiting מגביל את מספר הבקשות שלקוח יכול לשלוח בפרק זמן נתון (למשל 100 requests לדקה). זה מגן על שירותים מ-abuse ומ-DDoS קטן, ומבטיח fairness בין משתמשים. מממשים עם Token Bucket או Sliding Window algorithms."
+  },
+  {
+    "title": "Caching — Redis ו-Memcached",
+    "body": "Cache שומר תוצאות של חישובים או queries יקרים בזיכרון מהיר. Redis הוא in-memory data store שתומך ב-strings, lists, hashes, ועוד. הוא משמש גם כ-cache, queue, ו-session store. Cache-aside, write-through, ו-write-behind הם patterns נפוצים."
+  },
+  {
+    "title": "CDN — Content Delivery Network",
+    "body": "CDN הוא רשת של שרתים גיאוגרפיים שמחזיקים עותקים של static assets (images, JS, CSS). כשמשתמש מבקש קובץ, הוא מגיע מהשרת הקרוב אליו ולא מ-origin. זה מפחית latency, מוריד עומס מה-origin, ומשפר resilience."
+  },
+  {
+    "title": "Database Sharding",
+    "body": "Sharding מפצל database גדולה לחתיכות קטנות (shards) שכל אחת מאוחסנת בשרת שונה. לדוגמה, users עם ID זוגי ב-shard 1 ואי-זוגי ב-shard 2. זה מאפשר scale של throughput ו-storage, אבל queries שחוצים shards מסובכים יותר."
+  },
+  {
+    "title": "Read Replicas",
+    "body": "Read Replica היא עותק של database שמקבל replication מה-primary ואפשר לשאול אותה לקריאה בלבד. זה מפחית עומס מה-primary, מאפשר scale-out של reads, ומשמש כ-failover אם ה-primary נכשל. מקובל ב-PostgreSQL, MySQL, ו-RDS."
+  },
+  {
+    "title": "Event-Driven Architecture",
+    "body": "ב-Event-Driven Architecture שירותים מתקשרים דרך events ולא דרך קריאות ישירות. Producer שולח event לqueue/topic, ו-Consumers מגיבים בזמנם. זה מנתק services זה מזה (decoupling), מאפשר async processing, ומקל על scale."
+  },
+  {
+    "title": "Message Queues — Kafka ו-RabbitMQ",
+    "body": "Message queue מאפשר async תקשורת בין services. RabbitMQ הוא broker קלאסי שמנתב messages לתורים. Kafka הוא distributed log שמאפשר replay של messages וscale מסיבי. Kafka מתאים ל-event streaming; RabbitMQ לtask queues פשוטים."
+  },
+  {
+    "title": "CQRS — Command Query Responsibility Segregation",
+    "body": "CQRS מפריד בין write operations (Commands) לbread operations (Queries). המודל לכתיבה ולקריאה יכולים להיות שונים — לדוגמה, כותבים לrelational DB ומסנכרנים ל-Elasticsearch לחיפוש מהיר. זה מאפשר אופטימיזציה נפרדת לכל צד."
+  },
+  {
+    "title": "Event Sourcing",
+    "body": "במקום לשמור מצב נוכחי, Event Sourcing שומר את כל ה-events שהובילו אליו. הstate הנוכחי נובע מ-replay של כל ה-events. זה נותן audit trail מלא, אפשרות לtime travel debugging, ובסיס טוב ל-CQRS. Kafka מתאים לאחסון events."
+  },
+  {
+    "title": "Saga Pattern — Distributed Transactions",
+    "body": "ב-microservices אי אפשר לעשות ACID transaction שחוצה כמה שירותים. Saga מחלקת transaction לרצף של local transactions עם compensating transactions לביטול. ניתן לממש כ-choreography (events) או orchestration (מנהל מרכזי)."
+  },
+  {
+    "title": "Sidecar Pattern",
+    "body": "Sidecar הוא container נוסף שרץ ליד ה-main container בתוך אותו pod. הוא אחראי על cross-cutting concerns כמו logging, metrics, או network proxy — בלי לשנות את קוד האפליקציה. Service Mesh כמו Istio בנוי על pattern זה."
+  },
+  {
+    "title": "Ambassador Pattern",
+    "body": "Ambassador הוא proxy שיושב בין האפליקציה לשירות חיצוני ומטפל ב-retry, circuit breaking, ו-telemetry. האפליקציה מדברת עם localhost ואינה יודעת כלום על ה-network complexity. זה דומה לsidecar אבל ממוקד בחיבור החוצה."
+  },
+  {
+    "title": "Strangler Fig Pattern",
+    "body": "Strangler Fig הוא אסטרטגיה למיגרציה מ-monolith ל-microservices בלי big bang. מתחילים בכך שה-proxy מכוון את כל הטראפיק ל-monolith. בהדרגה מוציאים פיצ'רים ל-services חדשים ומעדכנים את ה-routing. ה-monolith 'נחנק' לאט לאט."
+  },
+  {
+    "title": "Chaos Engineering",
+    "body": "Chaos Engineering הוא תחום שבו מכוונן כישלונות ב-production בצורה מבוקרת כדי לגלות חולשות. Netflix פיתחו את Chaos Monkey שמוריד instances אקראיים. המטרה: לגלות כשלים לפני שמשתמשים מגלים, ולבנות systems שמוכנים לkישלון."
+  },
+  {
+    "title": "SLI, SLO, SLA — מדדי אמינות",
+    "body": "SLI (Service Level Indicator) הוא מדד ספציפי כמו latency או error rate. SLO (Objective) הוא המטרה — למשל 99.9% uptime. SLA (Agreement) הוא חוזה עם לקוח עם תוצאות אם לא עומדים ב-SLO. Google SRE popularized these concepts."
+  },
+  {
+    "title": "Error Budget",
+    "body": "Error Budget הוא כמות השגיאות 'המותרות' לפי ה-SLO. אם ה-SLO הוא 99.9% availability, ה-error budget הוא 0.1% — כ-43 דקות בחודש. כשה-budget מתמצה, מפסיקים deployments חדשים ומתמקדים ב-reliability. זה מאזן בין velocity ל-stability."
+  },
+  {
+    "title": "On-Call ו-Runbooks",
+    "body": "On-call הוא אחריות לתגובה לאלרטים מחוץ לשעות העבודה. Runbook הוא מסמך עם צעדים ברורים לטיפול בתקרית נפוצה. runbooks טובים מאפשרים לon-call שאינו expert לטפל בבעיה. Post-mortems מאחרי incidents משפרים את ה-runbooks."
+  },
+  {
+    "title": "Horizontal vs Vertical Scaling",
+    "body": "Vertical scaling (scale up) מוסיף resources לשרת קיים (יותר CPU, RAM). Horizontal scaling (scale out) מוסיף instances נוספים. Vertical יש לו תקרה פיזית ונקודת כישלון יחידה. Horizontal מאפשר scale כמעט ללא גבול ומוסיף resilience."
+  },
+  {
+    "title": "Auto Scaling",
+    "body": "Auto scaling מגדיל ומקטין את מספר ה-instances אוטומטית לפי עומס. ב-Kubernetes זה HPA (Horizontal Pod Autoscaler) שמגיב ל-CPU/memory. KEDA מאפשר scale לפי metrics חיצוניים כמו אורך queue. חשוב לכייל נכון כדי לא ל-scale מהר מדי או לאט מדי."
+  },
+  {
+    "title": "Kubernetes Namespaces",
+    "body": "Namespaces מאפשרים חלוקה לוגית של cluster אחד למספר סביבות או צוותים. Resources ב-namespace אחד מבודדים מהאחרים. משמשים לחלוקה בין dev/staging/prod באותו cluster, או בין צוותים שונים עם resource quotas נפרדות."
+  },
+  {
+    "title": "Kubernetes RBAC",
+    "body": "RBAC (Role-Based Access Control) ב-Kubernetes מגדיר מי יכול לעשות מה. Role/ClusterRole מגדיר הרשאות, RoleBinding מחבר אותן ל-user או service account. עיקרון ה-least privilege: כל service account מקבל רק את ההרשאות שצריך."
+  },
+  {
+    "title": "ConfigMaps ו-Secrets ב-Kubernetes",
+    "body": "ConfigMap שומר configuration לא-סודי (URLs, feature flags) שניתן לטעון כ-env vars או volumes לpod. Secret שומר מידע רגיש (passwords, tokens) — encoded ב-base64 ומוגן ב-etcd. ב-production רצוי לנהל Secrets עם Vault או External Secrets Operator."
+  },
+  {
+    "title": "Liveness, Readiness, Startup Probes",
+    "body": "Probe הוא בדיקת בריאות ש-Kubernetes מבצע לכל pod. Liveness: אם נכשל — מריץ container מחדש. Readiness: אם נכשל — מוציא מה-load balancer. Startup: נותן זמן לאפליקציה לעלות לפני שמתחילים את שאר ה-probes."
+  },
+  {
+    "title": "Resource Requests ו-Limits",
+    "body": "ב-Kubernetes כל container מגדיר request (כמה CPU/memory מובטחים) ו-limit (מקסימום). ה-scheduler ממקם pods לפי requests. אם container חורג מ-memory limit — נהרג (OOMKilled). הגדרות נכונות מונעות noisy neighbors וscaling חסר."
+  },
+  {
+    "title": "Persistent Volumes ב-Kubernetes",
+    "body": "Pods הם ephemeral — כשהם נהרגים, הdata נעלם. PersistentVolume (PV) הוא storage חיצוני שמחיה מחוץ ל-pod. PersistentVolumeClaim (PVC) הוא בקשה של pod לstorage. StorageClass מגדיר את הסוג (EBS, NFS, Ceph) ואפשר ל-provision דינמית."
+  },
+  {
+    "title": "StatefulSets vs Deployments",
+    "body": "Deployment מתאים לstateless services שכל pod זהה. StatefulSet מתאים לשירותים שצריכים identity קבועה (כמו databases) — כל pod מקבל שם קבוע ו-PVC ייחודי. מחיקה ויצירה של pods הולכת לפי סדר, ולא בכל פעם."
+  },
+  {
+    "title": "Ingress ו-Ingress Controller",
+    "body": "Ingress הוא resource ב-Kubernetes שמגדיר חוקי routing HTTP/HTTPS לתוך ה-cluster. Ingress Controller (Nginx, Traefik, HAProxy) הוא ה-component שמממש את החוקים. Ingress מאפשר TLS termination, path-based routing, ו-virtual hosting בשרת אחד."
+  },
+  {
+    "title": "Network Policies ב-Kubernetes",
+    "body": "ברירת המחדל ב-Kubernetes: כל pod יכול לדבר עם כל pod. NetworkPolicy מגדיר חוקי firewall ברמת pod — איזה ingress ו-egress מותר. לדוגמה: רק frontend יכול לפנות לbackend, ורק backend לdatabase. CNI plugins כמו Calico ו-Cilium מממשים זאת."
+  },
+  {
+    "title": "HashiCorp Vault — ניהול secrets",
+    "body": "Vault הוא כלי לניהול מרכזי של secrets: passwords, tokens, certificates. הוא תומך ב-dynamic secrets (יוצר credentials זמניים לdatabases), ב-encryption as a service, וב-audit logging. Kubernetes יכול לאמת pods ל-Vault דרך service accounts."
+  },
+  {
+    "title": "Terraform — מדינת Infrastructure",
+    "body": "Terraform מנהל state file שמתאר את ה-infrastructure הנוכחי. לפני כל apply הוא מחשב plan — ההפרש בין הרצוי לקיים. State יכול להיות מאוחסן ב-S3 עם DynamoDB לocking. Modules הם units לשימוש חוזר, ו-Workspaces מאפשרים סביבות מרובות."
+  },
+  {
+    "title": "Ansible — Configuration Management",
+    "body": "Ansible מאפשר לנהל תצורת שרתים דרך YAML playbooks בלי agent בצד ה-server (agentless, דרך SSH). Idempotent: אפשר להריץ פעמים רבות בלי שינוי. משמש לsetup שרתים, deploy, ו-configuration management — פחות נפוץ ב-k8s world."
+  },
+  {
+    "title": "Cloud Providers — AWS, GCP, Azure",
+    "body": "שלושת הגדולים מציעים שירותים דומים: compute (EC2/GCE/VMs), managed Kubernetes (EKS/GKE/AKS), databases מנוהלות, serverless, וCDN. AWS הוא הגדול ביותר עם הservices הנרחבים ביותר. GCP חזק ב-data/ML. Azure מוביל ב-enterprise ו-Microsoft integrations."
+  },
+  {
+    "title": "Serverless — Functions as a Service",
+    "body": "Serverless מאפשר להריץ קוד ללא ניהול שרתים — תשלום לפי invocation. AWS Lambda, Google Cloud Functions ו-Azure Functions הם הנפוצים. מתאים לevent-driven tasks, webhooks, ו-background jobs. מגבלות: cold start, execution time limit, stateless."
+  },
+  {
+    "title": "IAM — Identity and Access Management",
+    "body": "IAM מגדיר מי יכול לעשות מה ב-cloud. ב-AWS: users, groups, roles ו-policies. Roles מאפשרות ל-services (כמו EC2 או Lambda) לגשת ל-resources אחרים בלי credentials. עיקרון least privilege: תתן רק את ההרשאות הדרושות."
+  },
+  {
+    "title": "VPC — Virtual Private Cloud",
+    "body": "VPC הוא רשת פרטית וירטואלית ב-cloud שמבודדת את הresources שלך. מכיל subnets (public ו-private), routing tables, ו-security groups (firewall ברמת instance). Private subnets אין להן גישה ישירה לאינטרנט — יוצאות דרך NAT Gateway."
+  },
+  {
+    "title": "Zero Trust Security",
+    "body": "Zero Trust אומר 'לעולם אל תסמוך, תמיד אמת'. בניגוד ל-perimeter security, כל בקשה — גם בתוך הרשת הפנימית — חייבת להתמתן. כל service מתמתן מול service אחר. זה מפחית את הנזק מ-lateral movement אחרי פריצה."
+  },
+  {
+    "title": "mTLS — Mutual TLS",
+    "body": "TLS רגיל: רק הclient מאמת את הserver (דרך certificate). mTLS: שני הצדדים מציגים certificates ומאמתים זה את זה. Service Mesh כמו Istio מממש mTLS אוטומטית בין כל services ב-cluster, בלי שינוי קוד — מבטיח שרק services מורשים מדברים זה עם זה."
+  },
+  {
+    "title": "OWASP Top 10 — אבטחת Web",
+    "body": "OWASP Top 10 הוא רשימת הסיכונים הנפוצים לאפליקציות web: Injection (SQL, NoSQL), Broken Auth, XSS, IDOR, Security Misconfiguration ועוד. כל developer צריך להכיר אותם. OWASP מפרסם את הרשימה כל כמה שנים."
+  },
+  {
+    "title": "Container Security — Best Practices",
+    "body": "Run containers בuser שאינו root, השתמש ב-read-only filesystem, סרוק images לvulnerabilities (Trivy, Snyk), הגבל syscalls עם seccomp, והשתמש ב-minimal base images (Alpine, distroless). ב-Kubernetes: הגדר securityContext ותפעל pod security standards."
+  },
+  {
+    "title": "SBOM — Software Bill of Materials",
+    "body": "SBOM הוא רשימה מלאה של כל הcomponents, libraries, ו-dependencies שאפליקציה מכילה. כמו רשימת רכיבים של מוצר מזון. מאפשר לזהות אם dependency ספציפי פגיע (כמו Log4Shell). הופך להיות דרישה רגולטורית בתעשיות מסוימות."
+  },
+  {
+    "title": "SAST ו-DAST — בדיקות אבטחה",
+    "body": "SAST (Static Application Security Testing) מנתח קוד סטטית לפני הרצה — מוצא SQL injection, hardcoded secrets, ו-insecure patterns. DAST (Dynamic) בודק אפליקציה רצה דרך HTTP — מדמה תוקף. שניהם חשובים ומשלימים זה את זה ב-CI/CD pipeline."
+  },
+  {
+    "title": "Secret Scanning ב-CI",
+    "body": "Secret scanning מחפש keys, passwords, ו-tokens שנכנסו בטעות ל-git commits. GitHub Secret Scanning, GitGuardian, ו-TruffleHog הם כלים נפוצים. חשוב להריץ כ-pre-commit hook ו-ב-CI. secret שנחשף ב-public repo נחשב compormised ויש לחדש אותו מיד."
+  },
+  {
+    "title": "DORA Metrics — מדד ביצועי DevOps",
+    "body": "DORA מגדיר 4 metrics לbiצועי צוות: Deployment Frequency, Lead Time (מcommit לproduction), Change Failure Rate, ו-MTTR (זמן שחזור מתקרית). High-performing teams: מ-deploy כמה פעמים ביום עם MTTR מתחת לשעה. Benchmark לשיפור תהליכים."
+  },
+  {
+    "title": "Trunk-Based Development",
+    "body": "Trunk-Based Development: כולם מ-commit לbranch אחד (main/trunk), feature branches קצרים (מקסימום יום-יומיים). מנגנון: feature flags מסתירים קוד שלא מוכן. זה מפשט merge conflicts, מאפשר CI אמיתי, ומכריח integration מוקדם בין ה-developer."
+  },
+  {
+    "title": "Conway's Law",
+    "body": "Conway's Law: 'Organizations design systems that mirror their communication structure.' אם יש שני צוותים שלא מדברים, יהיו שני מערכות עם integration גרוע. מסקנה: כדי לשנות את הarchitecture, צריך לשנות את ה-team structure. Inverse Conway Maneuver: מעצבים צוותים לפי הarchitecture הרצויה."
+  },
+  {
+    "title": "Domain-Driven Design (DDD)",
+    "body": "DDD הוא גישה לעיצוב תוכנה שממקמת את ה-domain logic במרכז. Bounded Context מגדיר גבולות ברורים לכל domain — מה שמתרגם ל-microservice טוב. Ubiquitous Language: אותם מונחים ב-code וב-שיחות עם business. Events Storming עוזר לגלות את ה-domains."
+  },
+  {
+    "title": "Hexagonal Architecture (Ports & Adapters)",
+    "body": "Hexagonal Architecture מפרידה בין ה-domain logic לinfrastructure. ה-core לא יודע כלום על HTTP, SQL, או Kafka — הוא חושף Ports (interfaces). Adapters מממשים את ה-ports לטכנולוגיות ספציפיות. זה מאפשר בדיקת ה-domain בלי infrastructure ו-החלפת adapters בקלות."
+  },
+  {
+    "title": "Clean Architecture",
+    "body": "Clean Architecture של Robert Martin (Uncle Bob) מגדיר שכבות עגולות: Entities (domain) במרכז, Use Cases, Interface Adapters, ו-Frameworks & Drivers בחוץ. חוק הDependency: תלות זורמת רק פנימה. זה מבטיח שה-core business logic עצמאית מה-framework."
+  },
+  {
+    "title": "REST vs GraphQL vs gRPC",
+    "body": "REST: פשוט, stateless, HTTP verbs, מוכר לכולם — אבל over/under-fetching. GraphQL: הclient מגדיר בדיוק מה הוא רוצה — אחלה לmobile — אבל N+1 problems. gRPC: Protocol Buffers, binary, מהיר מאוד — מצוין לmicroservices פנימיים אבל פחות נח לdebug."
+  },
+  {
+    "title": "WebSockets ו-SSE",
+    "body": "HTTP הוא request-response: client שולח, server עונה. WebSocket: חיבור דו-כיווני persistent — מתאים ל-chat, live updates. SSE (Server-Sent Events): חיבור חד-כיווני מה-server לclient — פשוט יותר, מתאים לnotifications ו-live feeds. SSE עובד על HTTP רגיל."
+  },
+  {
+    "title": "Idempotency ב-APIs",
+    "body": "פעולה idempotent: הרצה כמה פעמים נותנת אותה תוצאה. GET ו-DELETE הם idempotent. POST לא. חשוב ב-distributed systems כי messages יכולים להגיע פעמיים. פתרון: Idempotency Key — הclient שולח מזהה ייחודי לrequest, והserver זוכר אם כבר עיבד אותו."
+  },
+  {
+    "title": "Eventual Consistency",
+    "body": "ב-distributed system לא תמיד אפשר לשמור consistency מיידית בין כל הנודים. Eventual Consistency אומר: הנתונים יתכנסו לעקביות בסופו של דבר, אבל קריאה מיד אחרי כתיבה עשויה להחזיר ערך ישן. מקובל ב-NoSQL DBs, DNS, ו-replica lag."
+  },
+  {
+    "title": "CAP Theorem",
+    "body": "CAP Theorem: ב-distributed system אפשר לבחור רק שניים מתוך שלושה: Consistency (כל קריאה מחזירה הנתון האחרון), Availability (כל בקשה מקבלת תשובה), ו-Partition Tolerance (המערכת ממשיכה לעבוד גם כשיש network partition). CP (Zookeeper) vs AP (Cassandra)."
+  },
+  {
+    "title": "Database Migrations ו-Zero-Downtime",
+    "body": "Schema migration (שינוי מבנה DB) ב-production צריך להיעשות ללא downtime. עקרון: Expand-Contract. שלב 1 (expand): הוסף עמודה חדשה, תמוך בשניהם. שלב 2: migrate data. שלב 3 (contract): הסר עמודה ישנה. כלים: Flyway, Liquibase, Alembic."
+  },
+  {
+    "title": "Connection Pooling",
+    "body": "פתיחת connection לdatabase יקרה (handshake, auth). Connection pool שומר connections פתוחים ומחלק אותם בין requests. PgBouncer לPostgres, HikariCP לJava. מספר connections מוגבל בDB — pool מונע exhaustion ומשפר latency."
+  },
+  {
+    "title": "Indexes ב-Databases",
+    "body": "Index הוא מבנה נתונים (לרוב B-tree) שמאיץ חיפוש בDB. בלי index — full table scan. Composite index על מספר עמודות עוזר לqueries מורכבות. Covering index כולל את כל השדות שהquery צריך ומונע חזרה לtable. יותר מדי indexes מאטים writes."
+  },
+  {
+    "title": "ACID vs BASE",
+    "body": "ACID (Atomicity, Consistency, Isolation, Durability): guarantees של relational databases — transaction מלא או כלום. BASE (Basically Available, Soft state, Eventually consistent): של NoSQL — זמינות גבוהה בעדיפות על consistency מיידית. בחירה בין השניים תלויה בuse case."
+  },
+  {
+    "title": "NoSQL — סוגים ומתי להשתמש",
+    "body": "4 סוגי NoSQL: Document (MongoDB, Firestore) לobjects גמישים; Key-Value (Redis, DynamoDB) לaccess מהיר לפי מפתח; Columnar (Cassandra, BigTable) לwrite-heavy עם TTL; Graph (Neo4j) לrelationships מורכבות. אין one-size-fits-all — תבחר לפי access patterns."
+  },
+  {
+    "title": "Vector Databases",
+    "body": "Vector database שומר embeddings — ייצוגים מספריים של טקסט, תמונות, או audio ב-high-dimensional space. חיפוש לפי similarity (ANN — Approximate Nearest Neighbor) ולא exact match. Pinecone, Weaviate, ו-pgvector (extension לPostgres) נפוצים. קריטי לאפליקציות AI/RAG."
+  },
+  {
+    "title": "GitFlow vs GitHub Flow",
+    "body": "GitFlow: branching model עם develop, feature, release, hotfix branches — מסובך, מתאים לsoftware עם versioned releases. GitHub Flow: פשוט — branch מMain, PR, merge. מתאים ל-continuous deployment. Trunk-Based Development: הכי פשוט — הכל ל-main עם feature flags."
+  },
+  {
+    "title": "Code Review Best Practices",
+    "body": "PR קטן (מתחת ל-400 שורות) — קל יותר לreview ופחות bugs עוברים. תמיד auto-review לפני human (linting, tests, security scan). Reviewer מחפש: correctness, readability, edge cases, ו-security. Nitpicks יסומנו ברור כdiscretionary. Approve מהר — אל תחזיק PR פתוח ימים."
+  },
+  {
+    "title": "Semantic Versioning",
+    "body": "SemVer: MAJOR.MINOR.PATCH. MAJOR: breaking changes. MINOR: features backwards-compatible. PATCH: bug fixes. ^1.2.3 ב-package.json יקבל 1.x.x אבל לא 2.0.0. חשוב לmaintain changelog ולספר ב-release notes מה השתנה. Conventional Commits מגנרטים changelog אוטומטי."
+  },
+  {
+    "title": "Monorepo vs Polyrepo",
+    "body": "Monorepo: כל הקוד ב-repository אחד (Google, Meta). מאפשר atomic commits, code sharing קל, ו-unified tooling — אבל scale tooling (Bazel, Nx, Turborepo) ו-access control מסובכים. Polyrepo: כל service בrepo נפרד — autonomy לצוות אבל versioning ו-dependency hell."
+  },
+  {
+    "title": "DNS — Domain Name System",
+    "body": "DNS ממיר domain names ל-IP addresses. A record: domain → IPv4. CNAME: alias לdomain אחר. TTL קובע כמה זמן לcache. בcloud: Route53 ו-Cloud DNS מאפשרים DNS-based load balancing, health checks, ו-latency routing. DNS propagation לוקח זמן — תכנן בהתאם."
+  },
+  {
+    "title": "TLS/SSL — הצפנה בתעבורה",
+    "body": "TLS מצפין תקשורת בין client לserver. Certificate מאמת שהserver הוא מי שהוא טוען להיות. Let's Encrypt נותן certificates חינמיים ומחדשים אוטומטית. TLS Termination: הproxy (Nginx, Load Balancer) מפענח ומעביר HTTP פנימה — פחות overhead על האפליקציה."
+  },
+  {
+    "title": "HTTP/2 ו-HTTP/3",
+    "body": "HTTP/1.1: כל request חיבור נפרד (כמעט). HTTP/2: multiplexing — מספר requests על חיבור אחד, header compression, server push. HTTP/3: מבוסס על QUIC (UDP) — מהיר יותר בnetwork גרועה כי אין head-of-line blocking. gRPC בנוי על HTTP/2."
+  },
+  {
+    "title": "Service Discovery",
+    "body": "ב-microservices dynamic, services עולים ויורדים. Service Discovery מאפשר לservices למצוא זה את זה ללא hardcoded IPs. Client-side: client שואל registry (Consul, Eureka). Server-side: load balancer שואל. ב-Kubernetes ה-DNS פנימי והServices של k8s מממשים זאת אוטומטית."
+  },
+  {
+    "title": "Health Checks ו-Graceful Shutdown",
+    "body": "Health check: endpoint (לרוב /health) שמחזיר 200 אם ה-service תקין. Liveness: האם process חי. Readiness: האם מוכן לtraffic. Graceful shutdown: כאשר מקבל SIGTERM — מפסיק לקבל requests חדשים, מסיים requests פתוחים, ורק אז יוצא. מנע data loss ו-502 errors."
+  },
+  {
+    "title": "Pod Disruption Budget (PDB)",
+    "body": "PDB מגדיר את מספר ה-pods המינימלי שחייבים להיות זמינים בזמן disruption מרצון (node drain, rolling update). לדוגמה: minAvailable: 2 בdeploy של 3 replicas. מבטיח שה-service לא יורד לחלוטין בzמן maintenance. חשוב לuptime גבוה."
+  },
+  {
+    "title": "eBPF — Linux Kernel Observability",
+    "body": "eBPF מאפשר הרצת קוד בתוך Linux kernel בצורה בטוחה וללא שינוי ה-kernel. משמש לnetworking (Cilium), observability (Pixie, Tetragon), ו-security (Falco). מהיר מאוד כי לא צריך סיבוב ל-userspace. הטרנד הגדול ב-Kubernetes networking."
+  },
+  {
+    "title": "Cilium — CNI על בסיס eBPF",
+    "body": "Cilium הוא CNI plugin ל-Kubernetes שמשתמש ב-eBPF לניתוב network. מהיר מNginx-based solutions, תומך ב-NetworkPolicy ברמת L7 (HTTP paths, gRPC methods), ומגיע עם Hubble לobservability של network flow. הולך להחליף iptables בתשתיות cloud-native."
+  },
+  {
+    "title": "SRE — Site Reliability Engineering",
+    "body": "SRE הוא גישה של Google לניהול operations — engineers עם software skills מנהלים production. 50% מהזמן לtoil (עבודה שחוזרת ואפשר לאוטמט), ו-50% לproject work. Error Budget שומר איזון בין feature velocity לstability. SRE הוא ה-DevOps של Google."
+  },
+  {
+    "title": "Platform Engineering",
+    "body": "Platform Engineering הוא בניית Internal Developer Platform — כלים ו-self-service שמאפשרים לdevelopers לdeploy, monitor ו-operate שירותים בלי לפנות לops. Golden paths: דרך מומלצת לcreate service חדש. מטרה: להפחית cognitive load מdevelopers ולהגביר autonomy."
+  },
+  {
+    "title": "Backstage — Developer Portal",
+    "body": "Backstage הוא open-source developer portal של Spotify. מרכז software catalog, templates ל-new services, docs, CI/CD status, ועוד. מאפשר לdevelopers למצוא הכל במקום אחד. פתרון ל-cognitive overload בorganizations גדולות עם הרבה microservices."
+  },
+  {
+    "title": "FinOps — ניהול עלויות ענן",
+    "body": "FinOps הוא discipline לניהול עלויות ענן. עיקרון: כולם (engineering, finance, business) שותפים לעלויות. זיהוי wasted resources (idle instances, oversized VMs), right-sizing, Spot/Preemptible instances לworkloads שיכולים לסבול interruptions, ו-savings plans לworkloads קבועים."
+  },
+  {
+    "title": "Spot Instances",
+    "body": "Spot (AWS) / Preemptible (GCP) instances הם spare capacity של cloud provider במחיר נמוך (70-90% הנחה). החיסרון: יכולים להיות מבוטלים עם התראה של 2 דקות. מתאים לbatch jobs, CI runners, ו-stateless workloads. ב-Kubernetes: node groups מ-Spot עם fallback לon-demand."
+  },
+  {
+    "title": "Multi-Region Deployment",
+    "body": "Multi-Region אומר להריץ את האפליקציה במספר regions גיאוגרפיים. מטרות: disaster recovery, latency נמוכה לmשתמשים מכל העולם. האתגרים: data replication, eventual consistency, ו-global load balancing. Active-Active: שני regions מקבלים traffic. Active-Passive: ה-second כ-standby."
+  },
+  {
+    "title": "Disaster Recovery — RTO ו-RPO",
+    "body": "RTO (Recovery Time Objective): כמה זמן מותר להיות down. RPO (Recovery Point Objective): כמה data מותר לאבד (בזמן — לדוגמה 1 שעה). Backup לבדו לא מספיק — צריך לבדוק restore בפועל. DR drill תקופתי חשוב לוודא שה-plan עובד כשצריך אותו."
+  },
+  {
+    "title": "Immutable Infrastructure",
+    "body": "Immutable Infrastructure: בדי לשנות server, זורקים אותו ובונים חדש עם הגרסה החדשה. לא עושים SSH לserver לשנות קובץ config. זה מבטיח שכל server זהה, מונע configuration drift, ומקל על rollback (חוזרים לimage הקודם)."
+  },
+  {
+    "title": "Golden Image",
+    "body": "Golden Image הוא VM image או container base image שהוכן מראש עם כל הsoftware הנדרש ו-hardened security settings. כל instance נוצר מה-image הזה. מאפשר startup מהיר יותר ועקביות בין instances. מחדשים את ה-image כשיש updates לsecurity."
+  },
+  {
+    "title": "GitOps ו-ArgoCD",
+    "body": "ArgoCD הוא GitOps controller שמנטר Git repository ומסנכרן Kubernetes cluster לפי מה שמוגדר שם. כל שינוי ב-cluster עובר PR. ArgoCD מזהה drift (שינויים ידניים ב-cluster) ומחזיר למצב הרצוי. App of Apps pattern מאפשר לנהל מאות applications."
+  },
+  {
+    "title": "Kustomize — Kubernetes Configuration",
+    "body": "Kustomize מאפשר לreuse ולcustomize Kubernetes YAML בלי templating. Base: configuration בסיסית. Overlays: שינויים לפי סביבה (dev/staging/prod). מובנה ב-kubectl מגרסה 1.14. פחות עוצמתי מHelm אבל פשוט יותר לtcase הפשוטים."
+  },
+  {
+    "title": "Observability-Driven Development",
+    "body": "ODD: כשכותבים feature, כותבים גם את הobservability — logs, metrics, ו-traces — כחלק מה-feature ולא כ-afterthought. 'You build it, you run it': ה-developer אחראי להבין את ה-behavior ב-production. שינוי תפיסה: production debugging הוא חלק מהeingineering work."
+  },
+  {
+    "title": "Testing in Production — Approaches",
+    "body": "Testing in production כולל: Canary releases, Feature flags, Shadow testing (מעתיקים traffic אמיתי ל-new version בלי להחזיר תשובה), ו-Chaos Engineering. Synthetic monitoring: מריצים בדיקות אוטומטיות נגד production מ-locations גיאוגרפיים שונים."
+  },
+  {
+    "title": "Database Connection Patterns",
+    "body": "PgBouncer: connection pooler לPostgres שמשמש כproxy ומנהל pool של connections. מאפשר לאלפי pods לעבוד עם Postgres שתומך בסטות מצומצמות של connections. Read/Write splitting: כותבים לprimary, קוראים מreplica. Patterns חשובים לscale של DB."
+  },
+  {
+    "title": "Kubernetes Operators",
+    "body": "Operator הוא custom controller שמרחיב Kubernetes לנהל stateful applications מורכבות (databases, queues). הוא כולל Custom Resource Definitions (CRDs) ו-controller שמגיב לשינויים. Postgres Operator, Redis Operator — מנהלים failover, backups, ו-scaling אוטומטית."
+  },
+  {
+    "title": "Progressive Delivery",
+    "body": "Progressive Delivery הוא הדור הבא של CI/CD: מגלגלים שינויים בצורה מבוקרת עם automated analysis. Flagger ו-Argo Rollouts מנטרים metrics בזמן canary rollout ומבצעים rollback אוטומטי אם SLO מדרדר. מפחית סיכון בכל deploy."
+  },
+  {
+    "title": "Cost of Downtime",
+    "body": "כל דקה של downtime עולה כסף — ב-Amazon, שניה = $6,000+ בהפסד מכירות. SLA של 99.9% מאפשר 43.8 דקות downtime לחודש. 99.99% מאפשר 4.4 דקות. הבנת ה-cost מעזרת לקבוע כמה להשקיע ב-reliability. לא כל service צריך 5 nines."
+  },
+  {
+    "title": "API Versioning Strategies",
+    "body": "איך לשנות API בלי לשבור clients קיימים? URI versioning: /v1/, /v2/. Header versioning: Accept: application/vnd.api+json; version=2. Query param: ?version=2. Consumer-Driven Contract Testing (Pact) מוודא שchanges לא שוברים consumers. Deprecation בהדרגה עם sunset headers."
+  },
+  {
+    "title": "Webhook vs Polling",
+    "body": "Polling: client שואל שרת כל X שניות אם יש חדשות — פשוט אבל מבזבז resources. Webhook: server שולח HTTP request לclient כשמשהו קורה — event-driven, יעיל. Webhook צריך endpoint נגיש ו-retry mechanism. לlocal development: ngrok חושף localhost לאינטרנט."
+  },
+  {
+    "title": "Developer Experience (DX)",
+    "body": "DX הוא חוויית הdeveloper עם tools, processes, ו-systems. dev setup שלוקח יום אחד לonboarding הוא DX גרועה. מדדים: זמן לfirst commit, זמן ל-local setup, קלות הdebug. השקעה ב-DX מחזירה את עצמה בproductivity ושימור עובדים."
+  },
+  {
+    "title": "Observability בServerless",
+    "body": "ב-Serverless כמו Lambda, invocations ephemeral ואין SSH. חייבים Structured Logs (JSON) עם correlation ID בכל log line. X-Ray או OpenTelemetry לtracing. AWS CloudWatch Insights לquerying. Cold start הוא אתגר — AWS Lambda Power Tuning עוזר לבחור memory נכון."
+  },
+  {
+    "title": "Service Level Objectives בפועל",
+    "body": "כדי להגדיר SLO: בחר מה חשוב למשתמש (latency p99 < 500ms? error rate < 0.1%?). מדוד עם הכלים הנכונים. הגדר alert שמתריע כש-error budget burn rate גבוה. ב-Prometheus: recording rules לחישוב SLO. Sloth ו-pyrra מגנרטים SLO configs אוטומטית."
+  }
+]
